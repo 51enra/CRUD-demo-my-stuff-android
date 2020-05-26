@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/itemLayout">
+
+    <data>
+        <variable
+            name="item"
+            type="de.telekom.sea.mystuff.frontend.android.model.Item" />
+    </data>
+
+    <LinearLayout
+        android:layout_height="40dp"
+        android:layout_width="match_parent">
+
+        <!-- android:orientation="horizontal" -->
+
+        <TextView
+            android:id="@+id/itemName"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:text="@{item.name}" />
+
+        <TextView
+            android:id="@+id/itemDescription"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:text="@{item.description}" />
+
+        <TextView
+            android:id="@+id/itemLocation"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:text="@{item.location}" />
+
+    </LinearLayout>
+
+</layout>
