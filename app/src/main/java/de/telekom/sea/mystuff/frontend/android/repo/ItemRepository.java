@@ -16,7 +16,9 @@ public class ItemRepository {
         this.itemApi = itemApi;
     }
 
-    public LiveData<ApiResponse<List<Item>>> getItems() {
-        return itemApi.getItems();
+    public LiveData<ApiResponse<List<Item>>> getAll() {
+        return itemApi.getAll();
     }
+
+    public LiveData<ApiResponse<Item>> getById(Long id) {return itemApi.getById(id);}
 }

@@ -54,7 +54,17 @@ public class ItemListRecyclerViewAdapter extends RecyclerView.Adapter<ItemListRe
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("item", item); //.putInt("itemPos", position);
+
+                // Option 1: Pass the complete Item in the bundle to ItemDetailsFragment (see also there).
+                // The Class Item must implement Serializable to be passed as argument!
+                // The argument parameter in the nav_graph must be declared accordingly (see also there)!
+                //
+                //bundle.putSerializable("item", item);
+
+                // Option 2: Pass only the Item id in the bundle and retrieve the Item directly from the DB
+                //
+                bundle.putLong("itemId", item.getId());
+
                 navController.navigate(R.id.action_itemListFragment_to_itemDetailsFragment, bundle);
             }
         });
@@ -62,11 +72,7 @@ public class ItemListRecyclerViewAdapter extends RecyclerView.Adapter<ItemListRe
 
     @Override
     public int getItemCount() {
-        if (items != null) {
             return items.size();
-        } else {
-            return 0;
-        }
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

@@ -18,12 +18,16 @@
         android:name="de.telekom.sea.mystuff.frontend.android.ui.ItemDetailsFragment"
         android:label="fragment_item_details"
         tools:layout="@layout/fragment_item_details">
-<!--
-        <argument android:name="itemPos"
-            app:argType="integer"
-            android:defaultValue="0"/>
--->
+
+        <!-- Option 1: Pass the complete Item as argument. See also ItemDetailsFragment.java. -->
+        <!--
         <argument android:name="item"
             app:argType="de.telekom.sea.mystuff.frontend.android.model.Item"/>
+        -->
+
+        <!-- Option 2: Pass only the Item id as argument. See also ItemDetailsFragment.java. -->
+        <argument android:name="itemId"
+            app:argType="long"/>
+
     </fragment>
 </navigation>

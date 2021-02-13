@@ -14,15 +14,12 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-import java.util.Objects;
-
 import de.telekom.sea.mystuff.frontend.android.MyStuffApplication;
 import de.telekom.sea.mystuff.frontend.android.R;
 
 public class ItemListFragment extends Fragment {
 
-    private ItemListViewModel viewModel;
+    private ItemViewModel viewModel;
     private ItemListRecyclerViewAdapter listAdapter = null;
 
     @Override
@@ -30,24 +27,35 @@ public class ItemListFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_item_list, container, false);
-        RecyclerView itemsList = view.findViewById(R.id.rv_items);
-        viewModel = new ViewModelProvider(this).get(ItemListViewModel.class);
+        viewModel = new ViewModelProvider(this).get(ItemViewModel.class);
         viewModel.initWithApplication(requireActivity().getApplication());
-        NavController navController = Navigation.findNavController(this.requireActivity(), R.id.nav_host_fragment);
-        listAdapter = new ItemListRecyclerViewAdapter(navController);
-        itemsList.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        itemsList.setAdapter(listAdapter);
+
+        // If the NavController is retrieved in onCreateView(), the view doesn't exist yet so we have to pass the Activity.
+        // Better retrieve it in onViewCreated!
+        //
+//        NavController navController = Navigation.findNavController(this.requireActivity(), R.id.nav_host_fragment);
+//        listAdapter = new ItemListRecyclerViewAdapter(navController);
+//        RecyclerView itemsList = view.findViewById(R.id.rv_items);
+//        itemsList.setLayoutManager(new LinearLayoutManager(this.getContext()));
+//        itemsList.setAdapter(listAdapter);
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        NavController navController = Navigation.findNavController(view);
+        listAdapter = new ItemListRecyclerViewAdapter(navController);
+        RecyclerView itemsList = view.findViewById(R.id.rv_items);
+        itemsList.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        itemsList.setAdapter(listAdapter);
+
         observeItemsListViewModel();
     }
 
     private void observeItemsListViewModel() {
-        viewModel.getItems().observe(getViewLifecycleOwner(), apiResponse -> {
+        viewModel.getAll().observe(getViewLifecycleOwner(), apiResponse -> {
             if (apiResponse.isSuccessful()) {
                 listAdapter.updateItems(apiResponse.body);
             } else {
